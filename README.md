@@ -1,6 +1,6 @@
 # Frontend Assessment - Student Profiles
 
-## Setup
+# Setup
 
 Install dependencies with `npm install`.
 
@@ -10,24 +10,15 @@ Install dependencies with `npm install`.
 npm start
 ```
 
-&nbsp;
+The server will run on `localhost` with port `3000`
+&nbsp;&nbsp;
+
 
 # Screen Shots
 
 !["Main Page"](docs/main_page.png)
 
-&nbsp;
-
-# Deployment
-
-Server deployed to Heroku
-
-- scheduler API at https://scheduler-zxw.herokuapp.com/api/
-
-Production deployed to Netlity
-
-- scheduler App at https://scheduler-zxw.netlify.app
-
+!["Main Page"](docs/result_page.png)
 &nbsp;
 
 # Feature

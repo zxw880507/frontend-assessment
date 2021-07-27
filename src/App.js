@@ -1,11 +1,13 @@
-import CardList from "./CardList";
+import CardList from "./components/CardList";
 import "./styles/App.css";
-
+import useWindowSize from "./hooks/useWindowSize";
 
 function App() {
+  const windowSize = useWindowSize();
+
   return (
     <div className="App">
-      <CardList />
+      <CardList windowSize={windowSize} />
     </div>
   );
 }

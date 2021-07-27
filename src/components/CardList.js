@@ -7,8 +7,8 @@ import Search from "./Search";
 
 const useStyles = makeStyles({
   container: {
-    width: (window.innerWidth * 7) / 12,
-    height: (window.innerHeight * 5) / 6,
+    width: (window) => (window.width * 7) / 12,
+    height: (window) => (window.height * 5) / 6,
     overflow: "scroll",
     borderRadius: 10,
   },
@@ -20,34 +20,30 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CardList() {
+export default function CardList(props) {
   const [init, setInit] = useState([]);
   const [data, setData] = useState([]);
-  const classes = useStyles();
+  const { windowSize } = props;
+  const classes = useStyles(windowSize);
 
   useEffect(() => {
     axios
       .get("https://api.hatchways.io/assessment/students")
       .then((res) => {
         setInit(res.data.students);
-        setData(res.data.students);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {
-    setData(init);
-  }, [init]);
-
   return (
     <Paper className={classes.container} elevation={5}>
-      <Search init={init} setData={setData} />
-      {data.map((student, index) => (
+      <Search init={init} setData={setData} windowSize={windowSize} />
+      {data.map((student) => (
         <CardItem
           student={student}
           key={student.id}
-          index={index}
           setInit={setInit}
+          windowSize={windowSize}
         />
       ))}
     </Paper>

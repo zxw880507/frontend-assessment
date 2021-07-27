@@ -1,8 +1,8 @@
 import { Card, Avatar, IconButton } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Grades from "./Grades";
 import Tags from "./Tags";
-import { getAvg, addTag } from "./Helpers";
+import { getAvg, addTag } from "../helpers/Helpers";
 import { makeStyles } from "@material-ui/core/styles";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     boxShadow: "none",
   },
   card: {
-    height: 0.23 * window.innerHeight,
+    height: (window) => 0.23 * window.height,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     paddingRight: 25,
   },
   name: {
-    fontSize: 0.044 * window.innerHeight,
+    fontSize: (window) => 0.04 * window.height,
     textTransform: "uppercase",
   },
   button: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
     },
   },
   toggleIcon: {
-    fontSize: 0.06 * window.innerHeight,
+    fontSize: (window) => 0.06 * window.height,
   },
   infoContainer: {
     flex: 2,
@@ -72,20 +72,21 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
-    fontSize: 0.017 * window.innerHeight,
+    fontSize: (window) => 0.017 * window.height,
     color: "rgba(151,151,151, 1)",
     fontWeight: "normal",
   },
 });
 
 export default function CardItem(props) {
-  const { firstName, lastName, email, company, skill, pic, grades, tags } =
+  const { firstName, lastName, email, company, skill, pic, grades, tags, id } =
     props.student;
-  const { index, setInit } = props;
+  const { setInit, windowSize } = props;
 
   const [show, setShow] = useState(false);
   const [newTag, setNewTag] = useState("");
-  const classes = useStyles();
+  const memoizedAverage = useMemo(() => getAvg(grades), [grades]);
+  const classes = useStyles(windowSize);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -94,6 +95,7 @@ export default function CardItem(props) {
       setNewTag("");
       setInit((prev) => {
         const students = [...prev];
+        const index = students.findIndex((student) => student.id === id);
         students[index] = student;
         return students;
       });
@@ -126,16 +128,17 @@ export default function CardItem(props) {
             <p>Email: {email}</p>
             <p>Company: {company}</p>
             <p>Skill: {skill}</p>
-            <p>Average: {getAvg(grades)}%</p>
+            <p>Average: {memoizedAverage}%</p>
           </div>
         </div>
       </div>
-      {show && <Grades grades={grades} />}
+      {show && <Grades grades={grades} windowSize={windowSize} />}
       <Tags
         handleKeyPress={handleKeyPress}
         newTag={newTag}
         setNewTag={setNewTag}
         tags={tags}
+        windowSize={windowSize}
       />
     </Card>
   );

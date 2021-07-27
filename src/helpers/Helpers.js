@@ -5,9 +5,9 @@ const getAvg = (grades) => {
   return Math.round(num * 1000) / 1000;
 };
 const addTag = (tag, student) => {
-  const arr = student.tags ? [...student.tags] : [];
-  arr.push(tag);
-  return arr;
+  const tags = student.tags ? [...student.tags] : [];
+  tags.push(tag);
+  return tags;
 };
 const searchBy = (init, name, tag) => {
   return init.filter((student) => {

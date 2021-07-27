@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   tags: {
     paddingBottom: 10,
     paddingLeft: 25,
-    fontSize: 0.017 * window.innerHeight,
+    fontSize: (window) => 0.017 * window.height,
     color: "rgba(151,151,151, 1)",
   },
   tagsInput: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     border: "none",
     borderBottom: "3px solid rgb(241,241,241)",
     outline: "none",
-    fontSize: 0.017 * window.innerHeight,
+    fontSize: (window) => 0.017 * window.height,
     "&:focus": {
       borderBottom: "3px solid rgba(0,0,0, .6)",
     },
@@ -45,8 +45,8 @@ const useStyles = makeStyles({
 });
 
 export default function Tags(props) {
-  const { handleKeyPress, newTag, setNewTag, tags } = props;
-  const classes = useStyles();
+  const { handleKeyPress, newTag, setNewTag, tags, windowSize } = props;
+  const classes = useStyles(windowSize);
   return (
     <div className={classes.tagsContainer}>
       <div className={classes.tagsContent}>
